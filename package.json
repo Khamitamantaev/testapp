@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Khamitamantaev/testapp#readme",
   "dependencies": {
     "body-parser": "^1.19.2",
+    "crypto-js": "^4.1.1",
     "express": "^4.17.3",
     "mongoose": "^6.2.3"
   }
