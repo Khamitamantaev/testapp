@@ -84,7 +84,7 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update Data with adminCode=${adminCode}. Maybe Data was not found!`
         });
-      } else res.send({ message: "Data was updated successfully." });
+      } else res.sendStatus(200);
     })
     .catch(err => {
       res.status(500).send({
@@ -95,10 +95,7 @@ exports.update = (req, res) => {
 // Delete a Data with the specified id in the request
 exports.delete = (req, res) => {
   const adminCode = req.body.adminCode;
-  Data.findOneAndRemove({ adminCode: adminCode },
-    function (err, docs) {
-      res.send({
-        message: "Data was deleted successfully!"
-      });
-    })
+  Data.findOneAndRemove({ adminCode: adminCode}, function(err){
+      res.sendStatus(200)
+  })
 };
