@@ -4,7 +4,7 @@ var uuid = require('uuid');
 var bodyParser = require('body-parser')
 var moment = require('moment');
 const app = express()
-const port = 3000
+const port = process.env.PORT
 const cron = require("node-cron");
 
 // parse application/x-www-form-urlencoded
@@ -65,5 +65,5 @@ cron.schedule("* * * * *", function () {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${process.env.PORT}`)
+  console.log(`Example app listening on port ${3000 || process.env.PORT}`)
 })
