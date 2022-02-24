@@ -58,7 +58,7 @@ exports.findOne = (req, res) => {
       if (!data)
         res.status(400).send({
           status: 400,
-          message: "Bad Request, not found with: " + decrypt_data 
+          message: "Bad Request, not found with: " + decrypt_data
         });
       else res.status(200).send({
         data: data.data
@@ -78,21 +78,27 @@ exports.update = (req, res) => {
     });
   }
   const adminCode = req.body.adminCode;
-  Data.findOneAndUpdate({adminCode: adminCode}, req.body, { useFindAndModify: false })
-  .then(data => {
-    if (!data) {
-      res.status(404).send({
-        message: `Cannot update Data with adminCode=${adminCode}. Maybe Data was not found!`
+  Data.findOneAndUpdate({ adminCode: adminCode }, req.body, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update Data with adminCode=${adminCode}. Maybe Data was not found!`
+        });
+      } else res.send({ message: "Data was updated successfully." });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Data with adminCode =" + adminCode
       });
-    } else res.send({ message: "Data was updated successfully." });
-  })
-  .catch(err => {
-    res.status(500).send({
-      message: "Error updating Data with adminCode =" + adminCode
     });
-  });
 };
 // Delete a Data with the specified id in the request
 exports.delete = (req, res) => {
-
+  const adminCode = req.body.adminCode;
+  Data.findOneAndRemove({ adminCode: adminCode },
+    function (err, docs) {
+      res.send({
+        message: "Data was deleted successfully!"
+      });
+    })
 };

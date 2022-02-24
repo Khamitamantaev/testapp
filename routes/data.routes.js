@@ -5,5 +5,6 @@ module.exports = app => {
     router.post("/push", data.create);
     router.get("/:shareCode", data.findOne);
     router.put("/update", data.update);
+    router.delete("/delete", data.delete);
     app.use('/api/data', router)
 }
