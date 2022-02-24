@@ -72,7 +72,7 @@ exports.update = (req, res) => {
       message: "Data to update can not be empty!"
     });
   }
-  const adminCode = req.params.adminCode;
+  const adminCode = req.body.adminCode;
   Data.findOneAndUpdate({adminCode: adminCode}, req.body, { useFindAndModify: false })
   .then(data => {
     if (!data) {
