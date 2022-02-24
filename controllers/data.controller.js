@@ -56,8 +56,13 @@ exports.findOne = (req, res) => {
   Data.findOne({ shareCode: decrypt_data })
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Data with shareCode: " + decrypt_data });
-      else res.send(data.data);
+        res.status(400).send({
+          status: 400,
+          message: "Bad Request, not found with: " + decrypt_data 
+        });
+      else res.status(200).send({
+        data: data.data
+      })
     })
     .catch(err => {
       res
