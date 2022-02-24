@@ -1,11 +1,14 @@
 const express = require('express')
+var uuid = require('uuid');
 var bodyParser = require('body-parser')
 var moment = require('moment');
 const app = express()
 const port = 3000
 const cron = require("node-cron");
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
 
 // parse application/json
 app.use(bodyParser.json())
@@ -27,6 +30,28 @@ db.mongoose
     console.log("Cannot connect to the database!", err);
     process.exit();
   });
+
+
+
+app.post("/api/clear", (req, res) => {
+  const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+  const test = regexExp.test(req.body.code);
+  if (!test) {
+    res.status(400).send({
+      message: "invalid code"
+    })
+  } else {
+    Data.deleteMany(function (err) {
+      if (err) {
+        console.log(err)
+      }
+      const generated = uuid.v4();
+      res.send({
+        code: generated
+      })
+    })
+  }
+});
 
 //cron with Date Check
 cron.schedule("* * * * *", function () {
