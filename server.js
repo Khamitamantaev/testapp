@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 var uuid = require('uuid');
 var bodyParser = require('body-parser')
@@ -56,7 +57,6 @@ app.post("/api/clear", (req, res) => {
 //cron with Date Check
 cron.schedule("* * * * *", function () {
   var now = moment().toDate();
-  console.log(now)
   Data.deleteMany({ expirationTime: { $lte: now } }, function (err) {
     if (err) {
       console.log(err)
@@ -65,5 +65,5 @@ cron.schedule("* * * * *", function () {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Example app listening on port ${process.env.PORT}`)
 })

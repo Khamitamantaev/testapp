@@ -1,3 +1,4 @@
+require('dotenv').config();
 const db = require("../models");
 
 const Data = db.data;
@@ -11,8 +12,8 @@ exports.create = (req, res) => {
     return;
   }
 
-  var secret = 'secret'
-  var admin_secret = 'adminsecret'
+  var secret = process.env.SECRET_KEY
+  var admin_secret = process.env.ADMIN_SECRET_KEY
   var hash = crypto.createHmac('SHA256', secret).update(req.body.data).digest('base64').replace('/', 'repla22')
   var hashadmin = crypto.createHmac('SHA256', admin_secret).update(req.body.data).digest('base64').replace('/', 'repla22')
 
