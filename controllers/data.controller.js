@@ -56,13 +56,13 @@ exports.findOne = (req, res) => {
   Data.findOne({ shareCode: decrypt_data })
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Data with id " + id });
+        res.status(404).send({ message: "Not found Data with shareCode: " + decrypt_data });
       else res.send(data.data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Data with data=" + parsedStr });
+        .send({ message: "Error retrieving Data" + decrypt_data });
     });
 };
 // Update a Data by the id in the request

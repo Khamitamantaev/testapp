@@ -8,7 +8,6 @@ module.exports = mongoose => {
           expirationTime: Date,
           shareCode: String,
           adminCode: String
-
         },
         { timestamps: true }
       )
