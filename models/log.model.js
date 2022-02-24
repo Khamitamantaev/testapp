@@ -6,6 +6,7 @@ module.exports = (sequelize, Sequelize) => {
       description: {
         type: Sequelize.STRING
       },
+      createdAt: Sequelize.DATE
     });
     return Log;
   };

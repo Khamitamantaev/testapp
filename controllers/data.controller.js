@@ -55,7 +55,9 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const decrypt_data = req.params.shareCode;
 
-  Data.findOne({ shareCode: decrypt_data })
+  Data.findOneAndUpdate({ shareCode: decrypt_data }, 
+                        {$inc : {accessTimesCount: -1}}, 
+                        { useFindAndModify: false })
     .then(data => {
       if (!data)
         res.status(400).send({
