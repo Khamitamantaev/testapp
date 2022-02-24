@@ -6,8 +6,14 @@ module.exports = mongoose => {
           data: String,
           accessTimesCount: Number,
           expirationTime: Date,
-          shareCode: String,
-          adminCode: String
+          shareCode: {
+            type: String,
+            unique: true
+          },
+          adminCode: {
+            type: String,
+            unique: true
+          }
         },
         { timestamps: true }
       )
