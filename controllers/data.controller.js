@@ -2,6 +2,8 @@ require('dotenv').config();
 const db = require("../models");
 
 const Data = db.data;
+const Logger = db.log
+
 var CryptoJS = require("crypto-js")
 var crypto = require('crypto')
 // Create and Save a new Data
@@ -26,7 +28,7 @@ exports.create = (req, res) => {
     adminCode: hashadmin
   });
   // Save Data in the database
-  
+
   data
     .save(data)
     .then((data) => {
@@ -97,5 +99,10 @@ exports.delete = (req, res) => {
   const adminCode = req.body.adminCode;
   Data.findOneAndRemove({ adminCode: adminCode}, function(err){
       res.sendStatus(200)
+      Logger.create({
+        title: `Data removed`,
+        description: `Data with adminCode: ${adminCode} removed`
+      })
   })
+  
 };

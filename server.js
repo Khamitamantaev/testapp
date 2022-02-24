@@ -20,6 +20,7 @@ const db = require("./models");
 db.sequelize.sync();
 const Data = db.data
 
+
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
