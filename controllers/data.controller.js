@@ -1,6 +1,7 @@
 const db = require("../models");
 const Data = db.data;
 var CryptoJS = require("crypto-js")
+var crypto = require('crypto')
 // Create and Save a new Data
 exports.create = (req, res) => {
   //Validate request
@@ -8,11 +9,19 @@ exports.create = (req, res) => {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
+
+  var secret = 'secret'
+  var admin_secret = 'adminsecret'
+  var hash = crypto.createHmac('SHA256', secret).update(req.body.data).digest('base64').replace('/','repla22')
+  var hashadmin = crypto.createHmac('SHA256', admin_secret).update(req.body.data).digest('base64').replace('/','repla22')
+
   // Create a Data
   const data = new Data({
     data: req.body.data,
     accessTimesCount: req.body.accessTimesCount,
-    expirationTime: req.body.expirationTime
+    expirationTime: req.body.expirationTime,
+    shareCode: hash,
+    adminCode: hashadmin
   });
   // Save Data in the database
 
@@ -21,11 +30,9 @@ exports.create = (req, res) => {
     .save(data)
     .then((data) => {
       // console.log("data: " + data.data)
-      var rawStr = data.data;
-      var wordArray = CryptoJS.enc.Utf8.parse(rawStr);
-      var encrypted_data = CryptoJS.enc.Base64.stringify(wordArray);
       res.send({
-        shareCode: encrypted_data
+        shareCode: hash,
+        adminCode: hashadmin
       })
     })
     .catch(err => {
@@ -45,17 +52,12 @@ exports.findAll = (req, res) => {
 // Find a single Data with an id
 exports.findOne = (req, res) => {
   const decrypt_data = req.params.shareCode;
-
-  var parsedWordArray = CryptoJS.enc.Base64.parse(decrypt_data);
-  var parsedStr = parsedWordArray.toString(CryptoJS.enc.Utf8);
-
-  console.log(parsedStr)
   
-  Data.findOne({ data: parsedStr })
+  Data.findOne({ shareCode: decrypt_data })
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found Data with id " + id });
-      else res.send(data);
+      else res.send(data.data);
     })
     .catch(err => {
       res
