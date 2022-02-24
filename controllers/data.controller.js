@@ -26,12 +26,10 @@ exports.create = (req, res) => {
     adminCode: hashadmin
   });
   // Save Data in the database
-
-
+  
   data
     .save(data)
     .then((data) => {
-      // console.log("data: " + data.data)
       res.send({
         shareCode: hash,
         adminCode: hashadmin

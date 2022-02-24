@@ -18,6 +18,8 @@ Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
 
 Install the dependencies and devDependencies and start the server.
 
+Copy .env.example to .env
+
 ```sh
 cd app
 npm i

@@ -17,6 +17,7 @@ app.use(bodyParser.json())
 require("./routes/data.routes")(app);
 
 const db = require("./models");
+db.sequelize.sync();
 const Data = db.data
 
 db.mongoose
