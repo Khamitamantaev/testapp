@@ -12,8 +12,8 @@ exports.create = (req, res) => {
 
   var secret = 'secret'
   var admin_secret = 'adminsecret'
-  var hash = crypto.createHmac('SHA256', secret).update(req.body.data).digest('base64').replace('/','repla22')
-  var hashadmin = crypto.createHmac('SHA256', admin_secret).update(req.body.data).digest('base64').replace('/','repla22')
+  var hash = crypto.createHmac('SHA256', secret).update(req.body.data).digest('base64').replace('/', 'repla22')
+  var hashadmin = crypto.createHmac('SHA256', admin_secret).update(req.body.data).digest('base64').replace('/', 'repla22')
 
   // Create a Data
   const data = new Data({
@@ -52,7 +52,7 @@ exports.findAll = (req, res) => {
 // Find a single Data with an id
 exports.findOne = (req, res) => {
   const decrypt_data = req.params.shareCode;
-  
+
   Data.findOne({ shareCode: decrypt_data })
     .then(data => {
       if (!data)
@@ -67,7 +67,25 @@ exports.findOne = (req, res) => {
 };
 // Update a Data by the id in the request
 exports.update = (req, res) => {
-
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!"
+    });
+  }
+  const adminCode = req.params.adminCode;
+  Data.findOneAndUpdate({adminCode: adminCode}, req.body, { useFindAndModify: false })
+  .then(data => {
+    if (!data) {
+      res.status(404).send({
+        message: `Cannot update Data with adminCode=${adminCode}. Maybe Data was not found!`
+      });
+    } else res.send({ message: "Data was updated successfully." });
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating Tutorial with id=" + id
+    });
+  });
 };
 // Delete a Data with the specified id in the request
 exports.delete = (req, res) => {
