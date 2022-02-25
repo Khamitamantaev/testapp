@@ -27,8 +27,8 @@ exports.create = (req, res) => {
     shareCode: hash,
     adminCode: hashadmin
   });
-  // Save Data in the database
 
+  // Save Data in the database
   data
     .save(data)
     .then((data) => {
@@ -43,13 +43,6 @@ exports.create = (req, res) => {
           err.message || "Some error occurred while creating the Data."
       });
     });
-};
-
-
-
-// Retrieve all Data from the database.
-exports.findAll = (req, res) => {
-
 };
 // Find a single Data 
 exports.findOne = (req, res) => {
