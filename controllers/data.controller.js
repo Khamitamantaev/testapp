@@ -3,8 +3,6 @@ const db = require("../models");
 
 const Data = db.data;
 const Logger = db.log
-
-var CryptoJS = require("crypto-js")
 var crypto = require('crypto')
 // Create and Save a new Data
 exports.create = (req, res) => {
@@ -13,11 +11,9 @@ exports.create = (req, res) => {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
-
-  var secret = process.env.SECRET_KEY
-  var admin_secret = process.env.ADMIN_SECRET_KEY
-  var hash = crypto.createHmac('SHA256', secret).update(req.body.data).digest('base64').replace('/', 'repla22')
-  var hashadmin = crypto.createHmac('SHA256', admin_secret).update(req.body.data).digest('base64').replace('/', 'repla22')
+  
+  var hash = crypto.createHmac('SHA256', process.env.SECRET_KEY).update(req.body.data).digest('base64').replace('/', 'repla22')
+  var hashadmin = crypto.createHmac('SHA256', process.env.ADMIN_SECRET_KEY).update(req.body.data).digest('base64').replace('/', 'repla22')
 
   // Create a Data
   const data = new Data({
