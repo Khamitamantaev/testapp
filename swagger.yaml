@@ -85,8 +85,7 @@ paths:
         description: "Data object that needs to be update in Database"
         required: true
         schema:
-          res: "asda"
-          $ref: "#/definitions/Data"
+          $ref: "#/definitions/UpdateData"
       responses:
         "200":
           message: "Updated succesfully Data"
@@ -168,6 +167,27 @@ definitions:
       code:
         type: "string"
         example: "9950eb01-6812-46a8-b7a6-372032c59feb"
+  UpdateData:
+    type: "object"
+    required:
+    - "adminCode"
+    - "data"
+    - "accessTimesCount"
+    - "expirationTime"
+    properties:
+      adminCode: 
+        type: "string"
+        example: "code example to find Data for Update"
+      data:
+        type: "string"
+        example: "data example"
+      accessTimesCount:
+        type: "string"
+        example: "5"
+      expirationTime:
+        type: "string"
+        format: "date"
+        example: "2022-02-25T19:15:00.232Z"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
