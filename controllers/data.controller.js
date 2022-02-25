@@ -59,10 +59,10 @@ exports.findOne = (req, res) => {
                         {$inc : {accessTimesCount: -1}}, 
                         { useFindAndModify: false })
     .then(data => {
-      if (!data)
-        res.status(400).send({
-          status: 400,
-          message: "Bad Request, not found with: " + decrypt_data
+      if (!data || data.accessTimesCount <= 0)
+        res.status(403).send({
+          status: 403,
+          message: "Usage is not available data with accessCode: " + decrypt_data
         });
       else res.status(200).send({
         data: data.data
