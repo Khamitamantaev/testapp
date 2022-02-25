@@ -12,6 +12,7 @@ const cron = require("node-cron");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
 //docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -63,6 +64,7 @@ app.post("/api/clear", (req, res) => {
 //cron with Date Check
 cron.schedule("* * * * *", function () {
   var now = moment().toDate();
+  console.log(now)
   Data.deleteMany({ expirationTime: { $lte: now } }, function (err) {
     if (err) {
       console.log(err)

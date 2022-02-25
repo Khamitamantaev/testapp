@@ -64,9 +64,76 @@ paths:
           schema:
             $ref: "#/definitions/Data"
         "400":
-          description: "Invalid Code"
+          status: "400"
+          message: "Bad request code"
       security:
       - api_key: []
+  /data/update:
+     put:
+      tags:
+      - "data"
+      summary: "Update an existing Data"
+      description: ""
+      operationId: "updateData"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Data object that needs to be update in Database"
+        required: true
+        schema:
+          res: "asda"
+          $ref: "#/definitions/Data"
+      responses:
+        "200":
+          message: "Updated succesfully Data"
+  /data/delete:
+    delete:
+      tags:
+      - "data"
+      summary: "Delete purchase Data by adminCode"
+      description: "For valid response try enter valid adminCode value.  Negative or non-integer values will generate API errors"
+      operationId: "deleteData"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Data object that needs to be deleted in Database"
+        required: true
+        schema:
+          $ref: "#/definitions/Code"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Order not found"
+  /clear:
+    post:
+      tags:
+      - "clear data"
+      summary: "Clear all data from DataBase"
+      description: ""
+      operationId: "clearData"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Data object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/UUID"
+      responses:
+        "200":
+          shareCode: "code"
+          adminCode: "code"
+
 definitions:
   Data:
     type: "object"
@@ -85,6 +152,22 @@ definitions:
         type: "string"
         format: "date"
         example: "2022-02-25T19:15:00.232Z"
+  Code:
+    type: "object"
+    required:
+    - "adminCode"
+    properties:
+      adminCode:
+        type: "string"
+        example: "EliMArNggtz8iEINuJn4RUnruxb4HuikA3vd+bfXJvE="
+  UUID: 
+    type: "object"
+    required: 
+    - "uuid"
+    properties:
+      code:
+        type: "string"
+        example: "9950eb01-6812-46a8-b7a6-372032c59feb"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
