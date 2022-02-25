@@ -4,12 +4,16 @@ var uuid = require('uuid');
 var bodyParser = require('body-parser')
 var moment = require('moment');
 const app = express()
+const YAML = require('yamljs');
+const swaggerUi = require('swagger-ui-express'); 
+const swaggerDocument = YAML.load('swagger.yaml'); 
 const port = process.env.PORT
 const cron = require("node-cron");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-
+//docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // parse application/json
 app.use(bodyParser.json())

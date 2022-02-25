@@ -57,11 +57,11 @@ exports.findOne = (req, res) => {
 
   Data.findOneAndUpdate({ shareCode: decrypt_data }, 
                         {$inc : {accessTimesCount: -1}}, 
-                        { useFindAndModify: false })
+                        { useFindAndModify: false })  
     .then(data => {
       if (!data || data.accessTimesCount <= 0)
-        res.status(403).send({
-          status: 403,
+        res.status(400).send({
+          status: 400,
           message: "Usage is not available data with accessCode: " + decrypt_data
         });
       else res.status(200).send({

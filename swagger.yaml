@@ -1,0 +1,90 @@
+swagger: "2.0"
+info:
+  description: "This is a sample TestApp server."
+  version: "1.0.0"
+  title: "Swagger TestApp Documentation"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "khamitamantaev@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+- name: "Data doc"
+  description: "Everything about Data"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /data/push:
+    post:
+      tags:
+      - "data"
+      summary: "Add a new Data to the Database"
+      description: ""
+      operationId: "addData"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Data object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Data"
+      responses:
+        "200":
+          shareCode: "code"
+          adminCode: "code"
+  /data/{shareCode}:
+    get:
+      tags:
+      - "data"
+      summary: "Find Data by shareCode"
+      description: "Returns a single Data"
+      operationId: "getPetById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "shareCode"
+        in: "path"
+        description: "shareCode of Data to return"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Data"
+        "400":
+          description: "Invalid Code"
+      security:
+      - api_key: []
+definitions:
+  Data:
+    type: "object"
+    required:
+    - "data"
+    - "accessTimesCount"
+    - "expirationTime"
+    properties:
+      data:
+        type: "string"
+        example: "data example"
+      accessTimesCount:
+        type: "string"
+        example: "5"
+      expirationTime:
+        type: "string"
+        format: "date"
+        example: "2022-02-25T19:15:00.232Z"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
